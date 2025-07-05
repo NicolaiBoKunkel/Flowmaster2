@@ -16,6 +16,7 @@ import ConditionsEditor from "../../../components/ConditionsEditor";
 import PlayMode from "@/components/PlayMode";
 import { Flow, Page, Question } from "@/utils/types";
 import PageNavigator from "@/components/PageNavigator";
+import QuestionList from "@/components/QuestionList";
 
 
 const evaluateCondition = (
@@ -377,108 +378,10 @@ export default function FlowEditor() {
                 
 
                 
-                <h2 className="text-xl font-semibold mt-6">
-                  Spørgsmål og conditions på side{" "}
-                  {flow.pages[currentPageIndex]?.name}
-                </h2>
-                <ul className="space-y-4 max-w-sm">
-                  {flow.pages[currentPageIndex]?.questions.map((q, index) => (
-                    <li
-                      key={index}
-                      className="border p-4 rounded shadow-sm bg-gray-50"
-                    >
-                      <p className="font-medium">{q.text}</p>
-                      <p>Type: {q.inputType}</p>
-
-                      {/* Handling for number input */}
-                      {q.inputType === "number" && <p>Spørgsmål: {q.text}</p>}
-
-                      {/* handling for text input */}
-                      {q.inputType === "text" && (
-                        <p>Placeholdertekst: {q.placeholder ?? "None"}</p>
-                      )}
-
-                      {/* handling for multiple-choice */}
-                      {q.inputType === "multiple-choice" && (
-                        <ul className="space-y-2">
-                          {q.answers?.map((answer, answerIndex) => (
-                            <li
-                              key={answerIndex}
-                              className="border p-2 rounded"
-                            >
-                              {answer}
-                            </li>
-                          ))}
-                          <p>
-                            Tillad flere svar:{" "}
-                            {q.allowMultipleAnswers ? "Ja" : "Nej"}
-                          </p>
-                        </ul>
-                      )}
-
-                      {/* handling for checkbox input */}
-                      {q.inputType === "checkbox" && (
-                        <>
-                          <p>Svar:</p>
-                          <ul className="space-y-2">
-                            {q.options?.map((option, optionIndex) => (
-                              <li
-                                key={optionIndex}
-                                className="border p-2 rounded"
-                              >
-                                {option}
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      )}
-
-                      {/* handling for dropdown input */}
-                      {q.inputType === "dropdown" && (
-                        <>
-                          <p>Svar:</p>
-                          <ul className="space-y-2">
-                            {q.options?.map((option, optionIndex) => (
-                              <li
-                                key={optionIndex}
-                                className="border p-2 rounded"
-                              >
-                                {option}
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      )}
-
-                      {/* handling for calendar input */}
-                      {q.inputType === "calendar" && (
-                        <p>Dette er et Kalender spørgsmål.</p>
-                      )}
-
-                      
-                      {q.inputType === "tekst-block" ? (
-                      <>
-                      <p className="font-bold">{q.text}</p> {/* Titel */}
-                      <p className="italic">{q.body || q.placeholder}</p> {/* Brødtekst */}
-                      </>
-                      ) : (
-                      <>
-                      {/* rendering for andre typer */}
-                      <p className="font-medium">{q.text}</p>
-                      </>
-                      )}
-
-
-                      {/* Delete Question Button */}
-                      <button
-                        onClick={() => handleDeleteQuestion(index)}
-                        className="bg-red-500 text-white px-2 py-1 rounded mt-2 hover:bg-red-600"
-                      >
-                        Slet
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                <QuestionList
+                  questions={flow.pages[currentPageIndex]?.questions || []}
+                  onDeleteQuestion={handleDeleteQuestion}
+                />
 
                 <ConditionsEditor
                   page={flow.pages[currentPageIndex]}
