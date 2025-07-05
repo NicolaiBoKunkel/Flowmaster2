@@ -15,6 +15,8 @@ import { updateFlow, getFlows } from "@/utils/flowStorage";
 import ConditionsEditor from "../../../components/ConditionsEditor";
 import PlayMode from "@/components/PlayMode";
 import { Flow, Page, Question } from "@/utils/types";
+import PageNavigator from "@/components/PageNavigator";
+
 
 const evaluateCondition = (
   operator: string,
@@ -331,67 +333,12 @@ export default function FlowEditor() {
             )}
 
             {/* Page Navigation */}
-            <div className="flex space-x-2 mb-4">
-              <button
-                onClick={() => setCurrentPageIndex(0)}
-                disabled={currentPageIndex === 0}
-                className={`px-3 py-1 rounded ${
-                  currentPageIndex === 0
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gray-200 hover:bg-gray-300"
-                }`}
-              >
-                Første side
-              </button>
-
-              <button
-                onClick={() => setCurrentPageIndex(currentPageIndex - 1)}
-                disabled={currentPageIndex === 0}
-                className={`px-3 py-1 rounded ${
-                  currentPageIndex === 0
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gray-200 hover:bg-gray-300"
-                }`}
-              >
-                Forrige side
-              </button>
-
-              <span className="px-3 py-1 rounded bg-blue-500 text-white">
-                Side {currentPageIndex + 1} of {flow.pages.length}
-              </span>
-
-              <button
-                onClick={() => setCurrentPageIndex(currentPageIndex + 1)}
-                disabled={currentPageIndex === flow.pages.length - 1}
-                className={`px-3 py-1 rounded ${
-                  currentPageIndex === flow.pages.length - 1
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gray-200 hover:bg-gray-300"
-                }`}
-              >
-                Næste side
-              </button>
-
-              <button
-                onClick={() => setCurrentPageIndex(flow.pages.length - 1)}
-                disabled={currentPageIndex === flow.pages.length - 1}
-                className={`px-3 py-1 rounded ${
-                  currentPageIndex === flow.pages.length - 1
-                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                    : "bg-gray-200 hover:bg-gray-300"
-                }`}
-              >
-                Sidste side
-              </button>
-
-              <button
-                type="button"
-                onClick={handleAddPage}
-                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-              >
-                Tilføj ny side
-              </button>
-            </div>
+              <PageNavigator
+                currentPageIndex={currentPageIndex}
+                totalPages={flow.pages.length}
+                onSetPageIndex={setCurrentPageIndex}
+                onAddPage={handleAddPage}
+              />
 
             <div className="flex space-x-2 mb-4">
               <button

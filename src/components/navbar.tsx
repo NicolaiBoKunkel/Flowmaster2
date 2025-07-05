@@ -3,8 +3,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 type LeftNavBarProps = {
-  onQuestionTypeChange?: (type: 'number' | 'text' | 'checkbox' | 'calendar' | 'multiple-choice' | 'tekst-block' | 'dropdown') => void;
-  flowName?: string; 
+  onQuestionTypeChange?: (
+    type:
+      | "number"
+      | "text"
+      | "checkbox"
+      | "calendar"
+      | "multiple-choice"
+      | "tekst-block"
+      | "dropdown"
+  ) => void;
+  flowName?: string;
 };
 
 export default function LeftNavBar({
@@ -12,7 +21,6 @@ export default function LeftNavBar({
   flowName,
 }: LeftNavBarProps) {
   const pathname = usePathname();
-
   const isEditingFlow = pathname.startsWith("/flow/");
 
   const handleNavAway = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -26,42 +34,44 @@ export default function LeftNavBar({
 
   return (
     <nav
-      className="fixed left-0 top-0 h-full w-48 flex flex-col items-start p-6 space-y-4"
+      className="fixed top-0 left-0 w-full flex items-center justify-between px-6 py-4 shadow-md z-50"
       style={{ backgroundColor: "#006e64" }}
     >
-      <Link
-        href="/"
-        className="text-white hover:underline"
-        onClick={isEditingFlow && flowName ? handleNavAway : undefined}
-      >
-        Home
-      </Link>
-      {isEditingFlow && (
-        <div className="flex flex-col text-xl space-y-4 text-white">
-          <button onClick={() => onQuestionTypeChange?.("number")}>
-            Numerisk spørgsmål
-          </button>
-          <button onClick={() => onQuestionTypeChange?.("text")}>
-            Tekst spørgsmål
-          </button>
-          <button onClick={() => onQuestionTypeChange?.('multiple-choice')}>
-            Multiple Choice spørgsmål
-          </button>
-          <button onClick={() => onQuestionTypeChange?.('checkbox')}>
-            Checkbox spørgsmål
-          </button>
-          <button onClick={() => onQuestionTypeChange?.('calendar')}>
-           Kalender spørgsmål
-          </button>
-          <button onClick={() => onQuestionTypeChange?.('dropdown')}>
-            Dropdown spørgsmål
-          </button>
-          <button onClick={() => onQuestionTypeChange?.('tekst-block')}>
-            Tekstblok
-          </button>
-        </div>
-      )}
+      <div className="flex items-center space-x-6">
+        <Link
+          href="/"
+          className="text-white text-lg font-semibold hover:underline"
+          onClick={isEditingFlow && flowName ? handleNavAway : undefined}
+        >
+          Home
+        </Link>
+
+        {isEditingFlow && (
+          <div className="flex items-center space-x-4 text-white text-sm">
+            <button onClick={() => onQuestionTypeChange?.("number")}>
+              Numerisk
+            </button>
+            <button onClick={() => onQuestionTypeChange?.("text")}>
+              Tekst
+            </button>
+            <button onClick={() => onQuestionTypeChange?.("multiple-choice")}>
+              Multiple Choice
+            </button>
+            <button onClick={() => onQuestionTypeChange?.("checkbox")}>
+              Checkbox
+            </button>
+            <button onClick={() => onQuestionTypeChange?.("calendar")}>
+              Kalender
+            </button>
+            <button onClick={() => onQuestionTypeChange?.("dropdown")}>
+              Dropdown
+            </button>
+            <button onClick={() => onQuestionTypeChange?.("tekst-block")}>
+              Tekstblok
+            </button>
+          </div>
+        )}
+      </div>
     </nav>
   );
 }
-
